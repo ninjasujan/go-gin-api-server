@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"net/http"
+	"ginserver/controller"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,30 +21,8 @@ var Books = []Book{
 
 // RegisterRoutes registers all the routes for the application
 func RegisterRoutes(router *gin.Engine) {
-	// Add your routes here
-	router.GET("/books", func(c *gin.Context) {
-		c.JSON(200, Books)
-	})
-
-	router.POST("/books", func(ctx *gin.Context) {
-		var book Book
-		if err := ctx.ShouldBindJSON(&book); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		Books = append(Books, book)
-		ctx.JSON(http.StatusCreated, book)
-	})
-
-	router.DELETE("/books/:id", func(ctx *gin.Context) {
-		id := ctx.Param("id")
-		for i, book := range Books {
-			if book.ID == id {
-				Books = append(Books[:i], Books[i+1:]...)
-				ctx.JSON(http.StatusOK, gin.H{"message": "Book deleted successfully"})
-				return
-			}
-		}
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
-	})
+	// Book routes
+	router.GET("/books", controller.GetBooks)
+	router.POST("/books", controller.CreateBook)
+	router.DELETE("/books/:id", controller.DeleteBook)
 }

@@ -3,15 +3,17 @@ package main
 import (
 	"fmt"
 	"ginserver/routes"
+	"ginserver/seeder"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	router := gin.New()
-	router.Use(gin.Logger())
-	router.Use(gin.Recovery())
+	router := gin.Default()
+
+	// Seed initial data
+	seeder.SeedBooks()
 
 	routes.RegisterRoutes(router)
 
