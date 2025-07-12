@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"ginserver/database"
 	"ginserver/routes"
 	"ginserver/seeder"
 
@@ -9,6 +10,8 @@ import (
 )
 
 func main() {
+
+	database.Init()
 
 	router := gin.Default()
 
